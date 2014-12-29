@@ -1,4 +1,4 @@
-function [ rect_lines, rect_words, rect_chars ] = detText(im,model)
+function [rect_lines,rect_words,rect_chars,CC] = detText(im,model)
 %   functions to find text locations
 %   input: grayscale image
 %   output: rectangles of textlines, words, and characters
@@ -8,16 +8,15 @@ function [ rect_lines, rect_words, rect_chars ] = detText(im,model)
 [H W] = size(im);
 
 % find characters
-[rect_chars0,bw0,rect_all0] = detChars(im,0,model);
+[rect_chars0,bw0,rect_all0,CC0] = detChars(im,0,model);
+% group characters into textlines
 rect_lines0 = []; idx0 = [];
 if ~isempty(rect_chars0)
     [idx0,rect_lines0] = textline(rect_chars0(:,1:7));
 end
 
 % find characters in opposite pattern
-[rect_chars1, bw1, rect_all1] = detChars(im,1,model);
-
-
+[rect_chars1, bw1, rect_all1,CC1] = detChars(im,1,model);
 % group characters into textlines
 rect_lines1 = []; idx1 = [];
 if ~isempty(rect_chars1)
@@ -26,12 +25,16 @@ end
 
 rect_chars = [rect_chars0;rect_chars1];
 rect_lines = [rect_lines0;rect_lines1];
-if isempty(find(idx0~=-1, 1))
-    idx1(idx1~=-1)= idx1(idx1~=-1);
-else
-    idx1(idx1~=-1)= idx1(idx1~=-1)+max(idx0);
+if isempty(find(idx0~=-1, 1)) % char in line does not exist
+    idx1(idx1~=-1) = idx1(idx1~=-1);
+else % re-assign label of line
+    idx1(idx1~=-1) = idx1(idx1~=-1)+max(idx0);
 end
 idx_all = [idx0;idx1];
+CC = CC0;
+CC.PixelIdxList = [CC0.PixelIdxList, CC1.PixelIdxList];
+CC.PixelIdxList = CC.PixelIdxList(idx_all~=-1);
+CC.NumObjects = numel(CC.PixelIdxList);
 
 %check overlap of two patterns
 isgood = checkoverlap(rect_lines);

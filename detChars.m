@@ -1,4 +1,4 @@
-function [rect_chars, BW, bbs_old] = detChars(I, isdark, model)
+function [rect_chars, BW, bbs_old, CC] = detChars(I, isdark, model)
 %function to extract text characters from image
 
 [H W] = size(I);
@@ -30,7 +30,7 @@ bbs = [tmp(:,1:2) tmp(:,3)-tmp(:,1)+1 tmp(:,4)-tmp(:,2)+1];
 bbs_old = tmp;
 
 % determine if char or not for each CC
-rect_chars = [];
+rect_chars = []; idx = [];
 for i = 1:size(bbs,1)
     rect = round(bbs(i,:));
     patch = imcrop(I, rect);
@@ -38,9 +38,12 @@ for i = 1:size(bbs,1)
     [label,prob] = hogClf(patch,model);
     %1 is alpha and number, 2 is non-text
     if(label == 1)
+        idx = [idx; i];
         rect_chars = [rect_chars; [round(bbs_old(i,1:4)) prob(label) label meancolor(i,1)]];
     end
 end
+CC.PixelIdxList = CC.PixelIdxList(idx);
+CC.NumObjects = numel(CC.PixelIdxList);
 end
 
 
