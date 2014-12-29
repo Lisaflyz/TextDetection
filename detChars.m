@@ -1,4 +1,4 @@
-function [rect_chars, BW, boundingbox] = detChars(I, isdark, model)
+function [rect_chars, BW, bbs_old] = detChars(I, isdark, model)
 %function to extract text characters from image
 
 [H W] = size(I);
@@ -23,31 +23,24 @@ meancolor = cat(1,meancolor.MeanIntensity);
 
 %filter out too small or too large bb
 ind = bbs(:,4) >= 8  & bbs(:,3) >= 8 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
-bbsfiltered = bbs(ind,:);
+bbs = bbs(ind,:);
 meancolor = meancolor(ind,:);
 
 s  = regionprops(CC, 'centroid');
 centroids = cat(1, s.Centroid);
 centroids = centroids(ind,:);
 
+mgn = 2; % margin for enlarge bb
+tmp = double([max(1,bbs(:,1)-mgn) max(1,bbs(:,2)-mgn) ...
+    min(W,bbs(:,1)+bbs(:,3)-1+mgn) min(H,bbs(:,2)+bbs(:,4)-1+mgn)]);
+bbs = [tmp(:,1:2) tmp(:,3)-tmp(:,1)+1 tmp(:,4)-tmp(:,2)+1];
+bbs_old = tmp;
 
-x1 = bbsfiltered(:,1);
-x2 = bbsfiltered(:,1) + bbsfiltered(:,3);
-y1 = bbsfiltered(:,2);
-y2 = bbsfiltered(:,2) + bbsfiltered(:,4);
-
-% enlarge the bb a bit
-x1 = max(1,x1-2);
-x2 = min(W,x2+2);
-y1 = max(1,y1-2);
-y2 = min(H,y2+2);
 rect_chars = [];
-
-% boundingbox =double([x1 y1 x2 y2]);
-bbs = double([max(1,x1-2) min(W,x2+2), max(1,y1-2) min(H,y2+2)]);
-for i = 1:size(boundingbox,1)
-    rect = round(boundingbox(i,:));
-    patch = I(rect(2):rect(4),rect(1):rect(3));
+size(bbs,1)
+for i = 1:size(bbs,1)
+    rect = round(bbs(i,:));
+    patch = imcrop(I, rect);
     [hp wp] = size(patch);
     aspect = hp / wp;
     if aspect > 6.5 || 1/aspect > 4 continue;end;
@@ -72,8 +65,8 @@ for i = 1:size(boundingbox,1)
     
     %1 is alpha and number, 2 is non-text
     if(label == 1)
-        recta = [rect(1) rect(2) rect(3) rect(4)];
-        rect_chars = [rect_chars; [recta prob(label) label meancolor(i,1)]];
+        % recta = [rect(1) rect(2) rect(3) rect(4)];
+        rect_chars = [rect_chars; [round(bbs_old(i,1:4)) prob(label) label meancolor(i,1)]];
     end
     
 end
