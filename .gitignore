@@ -1,0 +1,9 @@
+*~
+*.mexa64
+*.mexmaci64
+
+libsvm-3.18/
+liblinear-1.94/
+data/
+
+
