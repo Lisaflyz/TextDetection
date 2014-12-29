@@ -638,7 +638,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     //     var = calcVariance(wlist);
     // }
 
-    std::cout << "SWTImage= " << std::endl << " " << SWTImage << std::endl << std::endl;
+    // std::cout << "SWTImage= " << std::endl << " " << SWTImage << std::endl << std::endl;
 
     // plhs[0] = mxCreateDoubleScalar(avg);
     // plhs[1] = mxCreateDoubleScalar(var);
@@ -648,7 +648,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     // for (int i=1; i<100; i++){
     //     out_v[i] = i;
     // }
-    printf("rows:%d, cols:%d\n",SWTImage.rows, SWTImage.cols);
+    // printf("rows:%d, cols:%d\n",SWTImage.rows, SWTImage.cols);
     for (int i = 0; i < SWTImage.cols; i++){
         for (int j = 0; j < SWTImage.rows; j++){
             // printf("%1.2f ",SWTImage.at<float>(j,i));
