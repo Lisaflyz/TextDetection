@@ -14,8 +14,9 @@ im = double(rgb2gray(imread(file)));
 
 load data/model_deteng
 [lines, words, chars] = detText(im,model);
+lines
 % [lines, words, chars] = textdetect(im);
-save('data/tmp_det.mat','lines','words','chars');
+% save('data/tmp_det.mat','lines','words','chars');
 
 %%
 f = figure('Visible','on');imshow(uint8(im));
