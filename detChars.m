@@ -37,7 +37,6 @@ bbs = [tmp(:,1:2) tmp(:,3)-tmp(:,1)+1 tmp(:,4)-tmp(:,2)+1];
 bbs_old = tmp;
 
 rect_chars = [];
-size(bbs,1)
 for i = 1:size(bbs,1)
     rect = round(bbs(i,:));
     patch = imcrop(I, rect);
