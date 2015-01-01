@@ -8,7 +8,7 @@ swt: $(OBJS)
 	$(CC) -o $(PROGRAM) $^ $(LIBRARY)
 
 test: test.o Line.o LineSegment.o Rotation.o
-	$(CC) -o test $^ $(LIBRARY)
+	$(CC) -o swttest $^ $(LIBRARY)
 
 .cpp.o:
 	$(CC) $(CFLAGS) $(LIBRARY) -c $<

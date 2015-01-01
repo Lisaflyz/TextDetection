@@ -46,6 +46,7 @@ Mat execswt(Mat gray, Mat map){
 
     Mat edges = Mat::ones(gray.rows, gray.cols, CV_8U);
     Canny(gray, edges, lowThres, highThres, ksize, L2);
+    imwrite("edges.jpg",edges);
 
     int nrows = edges.rows, ncols = edges.cols;
     Mat dx = Mat::zeros(nrows, ncols, CV_16S);
@@ -53,6 +54,9 @@ Mat execswt(Mat gray, Mat map){
 
     Sobel(gray, dx, CV_16S, 1, 0); // xorder means vertical
     Sobel(gray, dy, CV_16S, 0, 1); // yorder means horizontal
+
+    imwrite("dx.jpg",dx);
+    imwrite("dy.jpg",dy);
 
     // for showing lines.
     Mat edge_col = Mat::zeros(edges.rows, edges.cols, CV_8U);
@@ -590,13 +594,19 @@ int main(int argc, char* argv[])
     int result;
     int n=1;
     int color = 1;
-    while((result = getopt(argc, argv, "c:n:")) != -1){
+    while((result = getopt(argc, argv, "c:n:l:h:")) != -1){
         switch(result){
             case 'c':
-                color = 0;
+                color = atoi(optarg);
                 break;
             case 'n':
                 n = atoi(optarg);
+                break;
+            case 'l':
+                lowThres = atoi(optarg);
+                break;
+            case 'h':
+                highThres = atoi(optarg);
                 break;
         }
     }
@@ -622,11 +632,30 @@ int main(int argc, char* argv[])
     execswt(gray_img,SWTImage);
 
     // std::cout << "SWTImage= " << std::endl << " " << gray_img << std::endl << std::endl;
+    int nregion = 0;
+    std::vector<double> wlist = std::vector<double>();
+    for (int i = 0; i < SWTImage.rows; i++){
+        for (int j = 0; j < SWTImage.cols; j++){
+            double w = SWTImage.at<float>(i,j);
+            if (w != -1){
+                wlist.push_back(w);
+                nregion++;
+            }
+        }
+    }
+    double avg=0.0, med=0.0, var=0.0, maxv=0.0;
 
-    for (int i = 0; i < SWTImage.cols; i++){
-        for (int j = 0; j < SWTImage.rows; j++){
-            float k = SWTImage.at<float>(j,i);
-            SWTImage.at<float>(j,i) = k>0 ? 255 : 0;
+    if (nregion != 0){
+        avg = std::accumulate(wlist.begin(),wlist.end(),0) / (double)nregion;
+        med = calcMedian(wlist);
+        var = calcVariance(wlist);
+        maxv = *max_element(wlist.begin(),wlist.end());
+    }
+
+    for (int i = 0; i < SWTImage.rows; i++){
+        for (int j = 0; j < SWTImage.cols; j++){
+            float k = SWTImage.at<float>(i,j);
+            SWTImage.at<float>(i,j) = k<0 ? 255 : 255*(1.0-min(1.0,k/min(med*1.5,maxv)));
         }
     }
 
