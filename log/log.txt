@@ -1,0 +1,7 @@
+[2015-01-01 16:15:11] Experiment started
+[2015-01-01 16:15:43] Experiment started
+[2015-01-01 16:16:51] Experiment started
+[2015-01-01 16:24:22] Experiment started
+[2015-01-01 16:25:51] Experiment started
+[2015-01-01 16:27:59] Experiment started
+[2015-01-01 17:45:03] Experiment ended
