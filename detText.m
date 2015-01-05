@@ -8,7 +8,12 @@ function [rect_lines,rect_words,rect_chars,CC] = detText(im,model)
 [H W] = size(im);
 
 % find characters
-[rect_chars0,bw0,rect_all0,CC0] = detChars(im,0,model);
+useswt = 1;
+if useswt
+    [rect_chars0,bw0,rect_all0,CC0] = detChars_swt(im,0,model);
+else
+    [rect_chars0,bw0,rect_all0,CC0] = detChars(im,0,model);
+end
 % group characters into textlines
 rect_lines0 = []; idx0 = [];
 if ~isempty(rect_chars0)
@@ -16,7 +21,11 @@ if ~isempty(rect_chars0)
 end
 
 % find characters in opposite pattern
-[rect_chars1, bw1, rect_all1,CC1] = detChars(im,1,model);
+if useswt
+    [rect_chars1, bw1, rect_all1,CC1] = detChars_swt(im,1,model);
+else
+    [rect_chars1, bw1, rect_all1,CC1] = detChars(im,1,model);
+end
 % group characters into textlines
 rect_lines1 = []; idx1 = [];
 if ~isempty(rect_chars1)

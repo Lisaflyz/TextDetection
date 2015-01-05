@@ -19,7 +19,8 @@ enum CharColor{
     BRIGHT, DARK, BOTH
 };
 double angle_thres = M_PI/6.0;
-double lowThres = 172.0, highThres = 344.0;
+double lowThres = 50.0, highThres = 100.0;
+// double lowThres = 172.0, highThres = 344.0;
 int ksize = 3;
 bool L2 = true;
 bool showFlag = false; //true;

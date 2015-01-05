@@ -4,7 +4,8 @@ addpath('liblinear-1.94/matlab/');
 
 
 k = 1;
-file = '../images/detection/icdar2003/SceneTrialTest/ryoungt_05.08.2002/aPICT0034.JPG';
+% file = '../images/detection/icdar2003/SceneTrialTest/ryoungt_05.08.2002/aPICT0034.JPG';
+file = sprintf('../images/detection/icdar2013/test/img_%d.jpg',n);
 %file = strcat('/home/naoki/images/ICDAR2013/scene_images/test_set_images/img_',num2str(k),'.jpg');
 %file = sprintf('/home/matlab/hinami/WordRecognition/testimage/%d.png',n);
 
