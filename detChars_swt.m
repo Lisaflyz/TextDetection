@@ -1,6 +1,7 @@
 function [rect_chars, BW, bbs_old, CC] = detChars_swt(I, isdark, model)
 
 [H W] = size(I);
+minv = max([H/100,W/100,8]);
 
 addpath('swt/');
 SWT = swt(I,isdark);
@@ -12,7 +13,7 @@ bbs = regionprops(CC,'BoundingBox');
 bbs = cat(1,bbs.BoundingBox);
 
 %filter out too small or too large bb
-idx = bbs(:,4) >= 8  & bbs(:,3) >= 8 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
+idx = bbs(:,4) >= minv  & bbs(:,3) >= 5 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
 CC.PixelIdxList = CC.PixelIdxList(idx);
 CC.NumObjects = numel(CC.PixelIdxList);
 bbs = bbs(idx,:);

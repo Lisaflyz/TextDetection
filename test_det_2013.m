@@ -12,7 +12,7 @@ model = trainDetClf(1);
 for k = 1:233
     fname = strcat('../images/detection/icdar2013/test/img_',num2str(k),'.jpg');
     I = double(rgb2gray(imread(fname)));
-    [~, words, ~] = detText(I,model);
+    [words, ~, ~] = detText(I,model);
     if isempty(words)
         res = words;
     else

@@ -46,13 +46,13 @@ CC.PixelIdxList = CC.PixelIdxList(idx_all~=-1);
 CC.NumObjects = numel(CC.PixelIdxList);
 
 %check overlap of two patterns
-isgood = checkoverlap(rect_lines);
-rect_lines = rect_lines(isgood==1,:);
+% isgood = checkoverlap(rect_lines);
+% rect_lines = rect_lines(isgood==1,:);
 
 %separate textlines into words
 rect_words = [];
 for i = 1:size(rect_lines,1)
-    if isgood(i) ~= 1; continue; end;
+    % if isgood(i) ~= 1; continue; end;
     rect = rect_lines(i,1:4);
     if i < max(idx0)
         patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));

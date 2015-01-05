@@ -16,6 +16,7 @@ im = double(rgb2gray(imread(file)));
 load data/model_deteng
 [lines, words, chars] = detText(im,model);
 lines
+words
 % [lines, words, chars] = textdetect(im);
 % save('data/tmp_det.mat','lines','words','chars');
 
@@ -40,12 +41,12 @@ for i = 1:size(chars,1)
 end
 for i = 1:size(lines,1)
     rect = lines(i,1:4);
-    rectangle('Position',rect,'EdgeColor','b');
+    rectangle('Position',rect,'EdgeColor','r');
 end
-%for i = 1:size(words,1)
-%    rect = words(i,1:4);
-%    rectangle('Position',rect,'EdgeColor','g');
-%end
+for i = 1:size(words,1)
+   rect = words(i,1:4);
+   rectangle('Position',rect,'EdgeColor','b');
+end
 %  outfile = strcat('/home/matlab/naoki/comics/',num2str(k),'.png');
 %  print( f,'-dpng',outfile ); 
 %%

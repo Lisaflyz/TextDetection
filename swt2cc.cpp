@@ -168,7 +168,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     int count = 0;
     for (int i=1; i<=L; i++){
         if (pixlist[i].size() > 0){
-            mxArray *list = mxCreateDoubleMatrix(1,pixlist[i].size(),mxREAL);
+            mxArray *list = mxCreateDoubleMatrix(pixlist[i].size(),1,mxREAL);
             double *pdata2=(double *)mxGetData(list);
             int count2 = 0;
             for (vector<int>::iterator it=pixlist[i].begin(); 
