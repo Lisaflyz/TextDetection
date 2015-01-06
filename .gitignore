@@ -4,6 +4,7 @@
 *.zip
 *.o
 *.jpg
+*.png
 *.tar
 *.tar.gz
 
@@ -12,5 +13,5 @@ libsvm-3.18/
 liblinear-1.94/
 data/result/*.mat
 data/tmp/*.mat
-images/
 swt/image/test/
+res/*.txt
