@@ -201,7 +201,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     int nchains = pair_grouping(pairs, index);
     vector<vector<Rect> > urects;
     urects.resize(nchains);
-    mexPrintf("nchain:%d\n", nchains);
+    // mexPrintf("nchain:%d\n", nchains);
     
     for(int k = 0; k < nchains; k++){
         for(int i = 0; i < index.size(); i++){
@@ -241,7 +241,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         probabilities.push_back(prob);
         
     }
-    mexPrintf("lines:%d,prob:%d,num:%d\n", lines.size(), probabilities.size(), num);
+    // mexPrintf("lines:%d,prob:%d,num:%d\n", lines.size(), probabilities.size(), num);
     
     
     

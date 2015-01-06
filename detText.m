@@ -51,21 +51,21 @@ CC.NumObjects = numel(CC.PixelIdxList);
 
 %separate textlines into words
 rect_words = [];
-for i = 1:size(rect_lines,1)
-    % if isgood(i) ~= 1; continue; end;
-    rect = rect_lines(i,1:4);
-    if i < max(idx0)
-        patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));
-        bw = otsubin(patch);
-        word = wordsep(rect,rect_chars(idx_all == i,:),bw);
-        rect_words = [rect_words;word];
-    else
-        patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));
-        bw = otsubin(patch);
-        word = wordsep(rect,rect_chars(idx_all == i,:),bw);
-        rect_words = [rect_words;word];
-    end
-end
+% for i = 1:size(rect_lines,1)
+%     % if isgood(i) ~= 1; continue; end;
+%     rect = rect_lines(i,1:4);
+%     if i < max(idx0)
+%         patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));
+%         bw = otsubin(patch);
+%         word = wordsep(rect,rect_chars(idx_all == i,:),bw);
+%         rect_words = [rect_words;word];
+%     else
+%         patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));
+%         bw = otsubin(patch);
+%         word = wordsep(rect,rect_chars(idx_all == i,:),bw);
+%         rect_words = [rect_words;word];
+%     end
+% end
 
 end
 
