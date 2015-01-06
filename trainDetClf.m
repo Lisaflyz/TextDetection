@@ -6,12 +6,12 @@ if loadflag
     load data/model_deteng
     return;
 else
-    load data/positive;
-    load data/negative;
-    % [trainingX, ~] = extractICDAR2013();
-    % save data/positive trainingX;
-    % [features_neg, ~] = extractICDAR2013neg();
-    % save data/negative features_neg;
+    % load data/tmp/positive;
+    % load data/tmp/negative;
+    [trainingX, ~] = extractICDAR2013();
+    save data/tmp/positive trainingX;
+    [features_neg, ~] = extractICDAR2013neg();
+    save data/tmp/negative features_neg;
 end
 
 trainXCs1 = trainingX;
@@ -24,7 +24,7 @@ trainY = [trainY1;trainY2];
 
 %% train the model
 model = train(trainY, sparse(trainXCs),'-s 0');
+save data/model_deteng model;
+
 %% test
 [labels, accuracy, prob] = predict(trainY,sparse(trainXCs),model,'-b 1');
-
-save data/model_deteng model;

@@ -31,6 +31,11 @@ for k = 1:numel(dsinfo)
     I = imread(dsinfo(k).filename);
 
     [lines words chars] = detText(double(rgb2gray(I)), model);
+    recall = calcDetScore(dsinfo(k).bbs,lines);
+    for i = 1:numel(dsinfo(k).tag)
+        fprintf('%2d : %5.1f%%  %s\n',i,recall(i)*100,dsinfo(k).tag{i});
+    end
+    fprintf('Recall : %.4f\n', sum(recall)/numel(recall));
 
     res = lines;
     res(:,3:4)=res(:,1:2)+res(:,3:4)-1;
