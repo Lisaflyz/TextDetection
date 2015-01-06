@@ -10,6 +10,7 @@
 
 libsvm-3.18/
 liblinear-1.94/
-data/
+data/result/
+data/tmp/
 images/
 swt/image/test/
