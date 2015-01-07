@@ -30,19 +30,28 @@ for k = 1:numel(dsinfo)
     fprintf('\n# image %d %s\n', k, prms.date);
     I = imread(dsinfo(k).filename);
 
-    [lines words chars] = detText(double(rgb2gray(I)), model);
+    [lines words chars] = detText(double(rgb2gray(I)), model, prms);
     recall = calcDetScore(dsinfo(k).bbs,lines);
+    recall2 = calcDetScore(dsinfo(k).bbs,words);
     for i = 1:numel(dsinfo(k).tag)
-        fprintf('%2d : %5.1f%%  %s\n',i,recall(i)*100,dsinfo(k).tag{i});
+        % fprintf('%2d : %5.1f%%  %s\n',i,recall(i)*100,dsinfo(k).tag{i});
+        if recall(i) == recall2(i)
+            fprintf('%2d : %5.1f%%  %s\n',i,recall(i)*100,dsinfo(k).tag{i});
+        elseif recall(i) < recall2(i)
+            fprintf('%2d : %5.1f%% (\033[32m%5.1f%%\033[39m)  %s\n',i,recall(i)*100,recall2(i)*100,dsinfo(k).tag{i});
+        else
+            fprintf('%2d : %5.1f%% (\033[31m%5.1f%%\033[39m)  %s\n',i,recall(i)*100,recall2(i)*100,dsinfo(k).tag{i});
+        end
     end
     fprintf('Recall : %.4f\n', sum(recall)/numel(recall));
+    fprintf('Char :%4d, Word :%3d, Line :%3d\n',size(chars,1),size(words,1),size(lines,1));
 
     res = lines;
     res(:,3:4)=res(:,1:2)+res(:,3:4)-1;
 
     dlmwrite(sprintf('res/res_img_%d.txt',k), res(:,1:4), 'newline', 'pc');
     if prms.saveimg==1
-        rectimg = myrectangle(I,words);
+        rectimg = myrectangle(I,lines);
         imwrite(uint8(rectimg),sprintf('images/save/det_%d.jpg',k));
     end
 

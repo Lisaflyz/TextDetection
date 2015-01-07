@@ -12,7 +12,7 @@ im = double(rgb2gray(imread(file)));
 % im = imresize(im,0.5);
 
 load data/model_deteng
-[lines, words, chars, CC] = detText(im,model);
+[lines, words, chars, CC] = detText(im,model,prms);
 BW = cc2bw(CC);
 
 f = figure('Visible','on');

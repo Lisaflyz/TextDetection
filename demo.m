@@ -14,7 +14,7 @@ im = double(rgb2gray(imread(file)));
 % im = imresize(im,0.5);
 
 load data/model_deteng
-[lines, words, chars] = detText(im,model);
+[lines, words, chars] = detText(im,model,prms);
 lines
 words
 % [lines, words, chars] = textdetect(im);

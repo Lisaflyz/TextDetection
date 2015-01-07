@@ -1,55 +1,51 @@
-function output = wordsep(textline, chars, bw)
+function words = wordsep(tline, chars, bw)
+% ライン全体に大津の二値化を掛けて、CC同士の間隔が広いところで区切る
 
+words = [];
+% Num of component <= 3 -> word
+if size(chars,1) <= 3, words=tline; return; end;
 
-n = size(chars,1);
-if n <= 3
-    output = textline;
-    return
-end;
+line = sum(bw); % number of foreground pixel for each x
 
-line = sum(bw);
-
-line(line<0.05*size(bw,1)) = 0;
+% Pre process : if (rate of fore < 5%) then (fore->back) => im2
+line(line<0.05*size(bw,1)) = 0; 
 im2 = ones(size(bw));
 im2(:,line==0) = 0;
 
 
-%find connect componets
+% find bbs of connect componets
 CC = bwconncomp(im2);
-%find the bounding box;
+if CC.NumObjects == 0, return; end
 bbs  = regionprops(CC, 'BoundingBox');
-bbs  = cat(1,bbs.BoundingBox);
-bbs = round(bbs);
-ind = bbs(:,4)>=3  & bbs(:,3)>=3;
-bbs = bbs(ind,:);
-chars = bbs;
-chars(:,3) = chars(:,1)+chars(:,3);
-chars(:,4) = chars(:,2)+chars(:,4);
-n = size(chars,1);
-words = [];
+bbs  = round(cat(1,bbs.BoundingBox));
+chars = bbs(bbs(:,4)>=3 & bbs(:,3)>=3, 1:4);
+chars(:,3:4) = chars(:,1:2)+chars(:,3:4) - 1;
+
+% calc length of interval of CC
+ccnum = size(chars,1);
+lens = zeros(ccnum-1,1); % length of interval
 sortrows(chars,1);
-lens = zeros(n-1,1);
-for j = 2:size(chars,1)
+for j = 2:ccnum
     lens(j-1) = max(1,(chars(j,1))-(chars(j-1,3)));
 end
 lens = sort(lens);
 
 
-
-counts = histc(lens,1:max(lens));
-T = find(cumsum(counts) > 0.65 * numel(lens),1,'first');
-T2 = 1.5*T+3;
-startpos = textline(1);
-for j = 2:size(chars,1)
+counts = histc(lens,1:max(lens)); % make histgram 1~max(lens)
+T = find(cumsum(counts) > 0.65 * numel(lens),1,'first'); % 最大間隔*65%を初めて超えるときの間隔
+T = 1.5*T+3;
+startpos = tline(1);
+for j = 2:ccnum
     len = max(1,(chars(j,1))-(chars(j-1,3)));
-    if len >= T2
-        endpos = chars(j-1,3)+textline(1);
-        rect = [startpos, textline(2), endpos,textline(4)];
+    % j-1までのCCを１つのwordとして区切る
+    if len >= T % separate if interval > threshold
+        endpos = chars(j-1,3)+tline(1);
+        rect = [startpos, tline(2), endpos, tline(4)];
         words = [words;rect];
-        startpos = chars(j,1)+textline(1);
+        startpos = chars(j,1)+tline(1);
     end
 end
-rect = [startpos, textline(2), textline(1)+textline(3),textline(4)];
+rect = [startpos, tline(2), tline(1)+tline(3),tline(4)];
 words = [words;rect];
 words(:,3) = words(:,3)-words(:,1);
 % words(:,4) = words(:,4)-words(:,2);

@@ -1,4 +1,4 @@
-function [rect_lines,rect_words,rect_chars,CC] = detText(im,model)
+function [rect_lines,rect_words,rect_chars,CC] = detText(im,model,prms)
 %   functions to find text locations
 %   input: grayscale image
 %   output: rectangles of textlines, words, and characters
@@ -8,8 +8,7 @@ function [rect_lines,rect_words,rect_chars,CC] = detText(im,model)
 [H W] = size(im);
 
 % find characters
-useswt = 1;
-if useswt
+if prms.useswt
     [rect_chars0,bw0,rect_all0,CC0] = detChars_swt(im,0,model);
 else
     [rect_chars0,bw0,rect_all0,CC0] = detChars(im,0,model);
@@ -21,7 +20,7 @@ if ~isempty(rect_chars0)
 end
 
 % find characters in opposite pattern
-if useswt
+if prms.useswt
     [rect_chars1, bw1, rect_all1,CC1] = detChars_swt(im,1,model);
 else
     [rect_chars1, bw1, rect_all1,CC1] = detChars(im,1,model);
@@ -51,21 +50,21 @@ CC.NumObjects = numel(CC.PixelIdxList);
 
 %separate textlines into words
 rect_words = [];
-% for i = 1:size(rect_lines,1)
-%     % if isgood(i) ~= 1; continue; end;
-%     rect = rect_lines(i,1:4);
-%     if i < max(idx0)
-%         patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));
-%         bw = otsubin(patch);
-%         word = wordsep(rect,rect_chars(idx_all == i,:),bw);
-%         rect_words = [rect_words;word];
-%     else
-%         patch = im(rect(2):rect(2)+rect(4),rect(1):rect(1)+rect(3));
-%         bw = otsubin(patch);
-%         word = wordsep(rect,rect_chars(idx_all == i,:),bw);
-%         rect_words = [rect_words;word];
-%     end
-% end
+for i = 1:size(rect_lines,1)
+    % if isgood(i) ~= 1; continue; end;
+    rect = rect_lines(i,1:4);
+    if i < max(idx0)
+        patch = im(rect(2):rect(2)+rect(4)-1,rect(1):rect(1)+rect(3)-1);
+        bw = otsubin(patch);
+        word = wordsep(rect,rect_chars(idx_all == i,:),bw); % pass linerect, charrect in line
+        rect_words = [rect_words;word];
+    else
+        patch = im(rect(2):rect(2)+rect(4)-1,rect(1):rect(1)+rect(3)-1);
+        bw = otsubin(patch);
+        word = wordsep(rect,rect_chars(idx_all == i,:),bw);
+        rect_words = [rect_words;word];
+    end
+end
 
 end
 
