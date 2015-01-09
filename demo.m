@@ -14,6 +14,7 @@ im = double(rgb2gray(imread(file)));
 % im = imresize(im,0.5);
 
 load data/model_deteng
+prms = getParams;
 [lines, words, chars] = detText(im,model,prms);
 lines
 words
@@ -41,7 +42,7 @@ for i = 1:size(chars,1)
 end
 for i = 1:size(lines,1)
     rect = lines(i,1:4);
-    rectangle('Position',rect,'EdgeColor','r');
+    rectangle('Position',rect,'EdgeColor','r','LineWidth',2);
 end
 for i = 1:size(words,1)
    rect = words(i,1:4);

@@ -6,7 +6,6 @@ function [rect_lines,rect_words,rect_chars,CC] = detText(im,model,prms)
 %              characters are [x,y,x+width,y+height];
 %   
 [H W] = size(im);
-
 % find characters
 if prms.useswt
     [rect_chars0,bw0,rect_all0,CC0] = detChars_swt(im,0,model);
@@ -65,6 +64,7 @@ for i = 1:size(rect_lines,1)
         rect_words = [rect_words;word];
     end
 end
+rect_chars(:,3:4) = rect_chars(:,3:4) - rect_chars(:,1:2) + 1;
 
 end
 

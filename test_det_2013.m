@@ -12,7 +12,7 @@ model = trainDetClf(1);
 
 expResult = execTextDet('icdar_2013_test', model, prms);
 
-save(sprintf('data/result/%s.mat',date),'expResult');
+save(sprintf('data/result/%s.mat',prms.date),'expResult');
 writeLog(sprintf('Experiment ended : %s',prms.date));
 % evaldet
 

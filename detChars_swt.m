@@ -7,6 +7,7 @@ addpath('swt/');
 SWT = swt(I,isdark);
 BW = SWT; % いらない
 CC = swt2cc(SWT);
+% imshow(SWT);
 
 %% 以下detCharsと同じ
 bbs = regionprops(CC,'BoundingBox');
@@ -14,6 +15,7 @@ bbs = cat(1,bbs.BoundingBox);
 
 %filter out too small or too large bb
 idx = bbs(:,4) >= minv  & bbs(:,3) >= 5 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
+% idx = bbs(:,4) >= 1;
 CC.PixelIdxList = CC.PixelIdxList(idx);
 CC.NumObjects = numel(CC.PixelIdxList);
 bbs = bbs(idx,:);
