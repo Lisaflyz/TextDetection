@@ -1,0 +1,1 @@
+mex evaldetection.cpp BoxEvaluator.cc BoxMatrix.cpp BoxOverlap.cpp CIL.cpp OptionContainer.cpp ParameterParsing.cpp Rect.cpp RectEval.cpp RectEvalList.cpp  -output DetEval -lopencv_features2d -lopencv_flann -lopencv_imgproc -lopencv_core -lopencv_highgui -lm -lstdc++ -lxml2 -I. -I/usr/include/libxml2 -DHAVE_LIBXML2
