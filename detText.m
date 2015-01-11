@@ -1,4 +1,4 @@
-function [rect_lines,rect_words,rect_chars,CC] = detText(im,model,prms)
+function [rect_lines,rect_words,rect_chars,CC, idx_all] = detText(im,model,prms)
 %   functions to find text locations
 %   input: grayscale image
 %   output: rectangles of textlines, words, and characters
@@ -6,6 +6,7 @@ function [rect_lines,rect_words,rect_chars,CC] = detText(im,model,prms)
 %              characters are [x,y,x+width,y+height];
 %   
 [H W] = size(im);
+
 % find characters
 if prms.useswt
     [rect_chars0,bw0,rect_all0,CC0] = detChars_swt(im,0,model);
@@ -40,8 +41,10 @@ end
 idx_all = [idx0;idx1];
 CC = CC0;
 CC.PixelIdxList = [CC0.PixelIdxList, CC1.PixelIdxList];
-CC.PixelIdxList = CC.PixelIdxList(idx_all~=-1);
-CC.NumObjects = numel(CC.PixelIdxList);
+% CC.PixelIdxList = CC.PixelIdxList(idx_all~=-1);
+% CC.NumObjects = numel(CC.PixelIdxList);
+
+
 
 %check overlap of two patterns
 % isgood = checkoverlap(rect_lines);

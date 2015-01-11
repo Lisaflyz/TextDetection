@@ -5,6 +5,7 @@ function test_det_2013
 clear all;
 prms = getParams;
 prms.date = datestr(now,'yymmdd_HHMM');
+prms.useswt = 0;
 
 writeLog(sprintf('Experiment started : %s',prms.date));
 model = trainDetClf(1);
@@ -34,7 +35,7 @@ for k = 1:numel(dsinfo)
     fprintf('\n# image %d %s\n', k, prms.date);
     I = imread(dsinfo(k).filename);
 
-    [lines words chars] = detText(double(rgb2gray(I)), model, prms);
+    [lines words chars CC idx] = detText(double(rgb2gray(I)), model, prms);
     dets = words;
     recall = calcDetScore(dsinfo(k).bbs,dets);
     for i = 1:numel(dsinfo(k).tag)
@@ -44,7 +45,8 @@ for k = 1:numel(dsinfo)
     fprintf('Result : \033[32m%.4f\033[39m\n', result(4));
     fprintf('Char :%4d, Word :%3d, Line :%3d\n',size(chars,1),size(words,1),size(lines,1));
 
-    detail = struct('lines',lines,'words',words,'chars',chars,'dets',dets,'result',result);
+    detail = struct('lines',lines,'words',words,'chars',chars, ...
+        'dets',dets,'result',result,'CC',CC,'idx',idx);
     expResult.details  = [expResult.details; detail];
 end
 end

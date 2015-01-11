@@ -13,7 +13,11 @@ bbs = regionprops(CC,'BoundingBox');
 bbs = cat(1,bbs.BoundingBox);
 
 %filter out too small or too large bb
-idx = bbs(:,4) >= 8  & bbs(:,3) >= 8 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
+% idx = bbs(:,4) >= 8  & bbs(:,3) >= 8 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
+
+minv = max([H/100,W/100,8]);
+idx = bbs(:,4) >= minv  & bbs(:,3) >= 8 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;
+
 CC.PixelIdxList = CC.PixelIdxList(idx);
 CC.NumObjects = numel(CC.PixelIdxList);
 bbs = bbs(idx,:);
@@ -48,6 +52,7 @@ end
 
 
 function [label,prob] = hogClf(patch,model)
+label = 1; prob = 1; return;
     label = 0; prob = 0;
 
     [hp wp] = size(patch);
