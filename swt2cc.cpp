@@ -27,7 +27,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (mxGetClassID(prhs[0])!=6) mexErrMsgTxt("Matrix is not of type double");
     if (nlhs>1)  mexErrMsgTxt("Too many output arguments");
 
-    double *pixels = mxGetPr(prhs[0]);
+    double *pixels = mxGetPr(prhs[0]); // input image
 
     int rows = mxGetM(prhs[0]);   // height
     int cols  = mxGetN(prhs[0]);  // width

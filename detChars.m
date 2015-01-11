@@ -1,16 +1,18 @@
-function [rect_chars, BW, bbs_old, CC] = detChars(I, isdark, model)
+function [rect_chars, BW, bbs_old, CC] = detChars(I, isdark, model, binIm)
 %function to extract text characters from image
 
 [H W] = size(I);
 
 %get the binary image;
-binIm = bt_niblackbin(I);
+% binIm = bt_niblackbin(I);
 BW = binIm == isdark;
 
 %find CCs and get their bbs
-CC = bwconncomp(BW);
-bbs = regionprops(CC,'BoundingBox');
-bbs = cat(1,bbs.BoundingBox);
+CC = bw2cc(double(BW));
+bbs = CC.BoundingBoxes;
+% CC = bwconncomp(BW);
+% bbs = regionprops(CC,'BoundingBox');
+% bbs = cat(1,bbs.BoundingBox);
 
 %filter out too small or too large bb
 % idx = bbs(:,4) >= 8  & bbs(:,3) >= 8 & bbs(:,3) < W/2;% & bbs(:,4)< H/2 & bbs(:,3) < W/2;

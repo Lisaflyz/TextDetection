@@ -6,12 +6,15 @@ function [rect_lines,rect_words,rect_chars,CC, idx_all] = detText(im,model,prms)
 %              characters are [x,y,x+width,y+height];
 %   
 [H W] = size(im);
+if ~prms.useswt
+    binIm = bt_niblackbin(im);
+end
 
 % find characters
 if prms.useswt
     [rect_chars0,bw0,rect_all0,CC0] = detChars_swt(im,0,model);
 else
-    [rect_chars0,bw0,rect_all0,CC0] = detChars(im,0,model);
+    [rect_chars0,bw0,rect_all0,CC0] = detChars(im,0,model,binIm);
 end
 % group characters into textlines
 rect_lines0 = []; idx0 = [];
@@ -23,7 +26,7 @@ end
 if prms.useswt
     [rect_chars1, bw1, rect_all1,CC1] = detChars_swt(im,1,model);
 else
-    [rect_chars1, bw1, rect_all1,CC1] = detChars(im,1,model);
+    [rect_chars1, bw1, rect_all1,CC1] = detChars(im,1,model,binIm);
 end
 % group characters into textlines
 rect_lines1 = []; idx1 = [];

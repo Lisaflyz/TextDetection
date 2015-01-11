@@ -1,5 +1,6 @@
-function generate_mongo_query(id)
+function generate_mongo_query(expResult)
 
+id = expResult.prms.date
 load(sprintf('data/result/%s.mat',id));
 
 f = fopen(sprintf('expdata/query/%s.txt',id),'w');

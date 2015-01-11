@@ -4,3 +4,5 @@ mex checkoverlap.cpp;
 mex HOG.cpp;
 mex swt2cc.cpp;
 run swt/buildSwt
+
+mex bw2cc.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui
