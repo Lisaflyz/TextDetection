@@ -14,5 +14,5 @@ liblinear-1.94/
 data/result/*.mat
 data/tmp/*.mat
 swt/image/test/
-res/*.txt
+res/*
 expdata/query/*.txt
