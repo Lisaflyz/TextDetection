@@ -25,6 +25,8 @@ t13h = 2.0*t13p*t13r/(t13p+t13r);
 % fprintf('Evaluation 03: precision:%f,recall:%f,hmean:%f\n',t03p*100,t03r*100,t03h*100);
 % fprintf('Evaluation 13: precision:%f,recall:%f,hmean:%f\n',t13p*100,t13r*100,t13h*100);
 fprintf('Recall : \33[32m%2.2f%%\33[39m Precision:%2.2f%% Hmean:%2.2f%%\n\n',t13r*100,t13p*100,t13h*100);
+writeLog(sprintf('%s Recall : \33[32m%2.2f%%\33[39m Precision:%2.2f%% Hmean:%2.2f%%' ...
+        ,expResult.prms.date,t13r*100,t13p*100,t13h*100));
 
 
 % output result for icdar2013, image
@@ -40,6 +42,7 @@ for i = 1:N
 
 end
 
+if 1
 mkdir(fullfile('images',expResult.prms.date));
 % output image
 dir1 = fullfile('images',expResult.prms.date,'1');
@@ -74,6 +77,7 @@ for i = 1:N
         end
     end
     imwrite(uint8(I),sprintf('%s/img_%d.jpg',dir2,i));
+end
 end
 end
     % if expResult.prms.saveimg==1

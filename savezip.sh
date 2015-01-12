@@ -15,6 +15,6 @@ done
 zip res_$1.zip *.txt
 
 cd ../
-tar zcf det_$1.tar.gz res/*.txt images/save
-
-mv det_$1.tar.gz ../savedata/TextDetection/
+# tar zcf det_$1.tar.gz res/*.txt images/save
+#
+# mv det_$1.tar.gz ../savedata/TextDetection/

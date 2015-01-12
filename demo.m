@@ -9,7 +9,7 @@ file = sprintf('../images/detection/icdar2013/test/img_%d.jpg',n);
 %file = strcat('/home/naoki/images/ICDAR2013/scene_images/test_set_images/img_',num2str(k),'.jpg');
 %file = sprintf('/home/matlab/hinami/WordRecognition/testimage/%d.png',n);
 
-im = double(rgb2gray(imread(file)));
+im = imread(file);
 
 % im = imresize(im,0.5);
 
@@ -36,8 +36,8 @@ hold on;
 % end
 for i = 1:size(chars,1)
     rect = chars(i,1:4);
-    rect(3) = rect(3) - rect(1);
-    rect(4) = rect(4) - rect(2);
+    % rect(3) = rect(3) - rect(1) + 1;
+    % rect(4) = rect(4) - rect(2) + 1;
     rectangle('Position',rect,'EdgeColor','g');
 end
 for i = 1:size(lines,1)

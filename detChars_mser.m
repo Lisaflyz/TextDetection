@@ -1,15 +1,19 @@
-function [rect_chars, BW, bbs_old, CC] = detChars(I, isdark, model, binIm)
+function [rect_chars, BW, bbs_old, CC] = detChars_mser(I, isdark, model)
 %function to extract text characters from image
 
 [H W] = size(I);
 
 %get the binary image;
 % binIm = bt_niblackbin(I);
-BW = binIm == isdark;
+BW = [];
+
+CC = MSER(uint8(I),isdark);
+bbs = regionprops(CC,'BoundingBox');
+bbs = cat(1,bbs.BoundingBox);
 
 %find CCs and get their bbs
-CC = bw2cc(double(BW));
-bbs = CC.BoundingBoxes;
+% CC = bw2cc(double(BW));
+% bbs = CC.BoundingBoxes;
 % CC = bwconncomp(BW);
 % bbs = regionprops(CC,'BoundingBox');
 % bbs = cat(1,bbs.BoundingBox);

@@ -154,3 +154,38 @@ Recall : 62.45% Precision:5.93% Hmean:10.83%
 [2015-01-12 03:57:08] Experiment started : 150112_0357
 [2015-01-12 03:58:38] Experiment started : 150112_0358
 [2015-01-12 04:10:21] Experiment ended : 150112_0357
+[2015-01-12 16:16:04] Experiment started : 150112_1616
+[2015-01-12 16:25:05] 150112_1616 Recall : [32m61.61%[39m Precision:5.90% Hmean:10.77%
+
+
+[2015-01-12 16:29:44] Experiment ended : 150112_1616
+[2015-01-12 16:31:00] Experiment started : 150112_1631
+[2015-01-12 16:31:44] Experiment started : 150112_1631
+[2015-01-12 16:32:07] Experiment started : 150112_1632
+[2015-01-12 16:32:46] Experiment started : 150112_1632
+[2015-01-12 16:41:51] 150112_1632 Recall : [32m61.61%[39m Precision:5.90% Hmean:10.77%
+
+
+[2015-01-12 16:46:30] Experiment ended : 150112_1632
+[2015-01-12 16:48:25] Experiment started : 150112_1648
+[2015-01-12 16:56:48] 150112_1648 Recall : [32m62.45%[39m Precision:5.93% Hmean:10.83%
+
+
+[2015-01-12 17:01:25] Experiment ended : 150112_1648
+[2015-01-12 17:38:12] Experiment started : 150112_1738
+[2015-01-12 17:57:17] Experiment started : 150112_1757
+[2015-01-12 18:06:38] 150112_1757 Recall : [32m63.51%[39m Precision:5.01% Hmean:9.29%
+
+
+[2015-01-12 18:11:21] Experiment ended : 150112_1757
+[2015-01-12 21:27:59] Experiment started : 150112_2127
+[2015-01-12 21:36:20] 150112_2127 Recall : [32m63.51%[39m Precision:5.01% Hmean:9.29%
+[2015-01-12 21:36:23] Experiment ended : 150112_2127
+[2015-01-12 21:38:46] Experiment started : 150112_2138
+[2015-01-12 21:39:40] Experiment started : 150112_2139
+[2015-01-12 22:38:53] Experiment started : 150112_2238
+[2015-01-12 22:44:19] 150112_2139 Recall : [32m69.90%[39m Precision:17.51% Hmean:28.00%
+[2015-01-12 22:44:19] Experiment ended : 150112_2139
+[2015-01-12 22:48:18] 150112_2238 Recall : [32m68.77%[39m Precision:17.65% Hmean:28.09%
+[2015-01-12 22:48:19] Experiment ended : 150112_2238
+[2015-01-12 22:53:37] 150112_2139 Recall : [32m69.90%[39m Precision:17.51% Hmean:28.00%

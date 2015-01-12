@@ -199,10 +199,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     make_pairs(gtrects, pairs);
     vector<int> index;
     int nchains = pair_grouping(pairs, index);
+
+
     vector<vector<Rect> > urects;
     urects.resize(nchains);
-    // mexPrintf("nchain:%d\n", nchains);
-    
     for(int k = 0; k < nchains; k++){
         for(int i = 0; i < index.size(); i++){
             if(index[i] == k){
@@ -219,43 +219,31 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     for(int i = 0; i < cols; i++)
         ind[i] = -1;
     for(int i = 0; i < urects.size(); i++){
-        if(urects[i].size() <= 2) {
+        if(urects[i].size() <= 1) { // XXX
             continue;
         }
         double prob = 0;
         Rect r = urects[i][0];
         for(int j = 0; j < urects[i].size(); j++){
-            
-            r = r | urects[i][j];            
+            r = r | urects[i][j];
             for(int k = 0; k < cols; k++){
                 if(urects[i][j] == gtrects[k]){
-                    ind[k] = (double) num;                    
+                    ind[k] = (double) num;
                     prob += scores[k];
                     break;
                 }
             }
         }
-        
         num++;
         lines.push_back(r);
         probabilities.push_back(prob);
-        
     }
-    // mexPrintf("lines:%d,prob:%d,num:%d\n", lines.size(), probabilities.size(), num);
     
-    
-    
-    
-    
-    
-    
-    
+    // Output
     plhs[1] = mxCreateDoubleMatrix(lines.size(), 5, mxREAL); /* Create the output matrix */
     double *output = mxGetPr(plhs[1]);
     cols = lines.size();
-    for(int i = 0; i < lines.size(); i++){
-        
-        
+    for(int i = 0; i < cols; i++){
         output[i+0*cols] = (double) lines[i].x;
         output[i+1*cols] = (double) lines[i].y;
         output[i+2*cols] = (double) lines[i].width;

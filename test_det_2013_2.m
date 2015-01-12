@@ -40,9 +40,18 @@ for k = 1:N
     fprintf('\n# image %d %s\n', k, prms.date);
     I = imread(dsinfo(k).filename);
 
+    if size(I,1)*size(I,2)>1000*1000
+        scale = sqrt(1000*1000 / (size(I,1)*size(I,2)));
+        I = imresize(I,scale);
+    else
+        scale = 1;
+    end
     tic;
     [lines words chars CC idx] = detText(I, model, prms);
     time = toc;
+    lines = lines/scale;
+    words = words/scale;
+    chars = chars/scale;
     dets = words;
     recall = calcDetScore(dsinfo(k).bbs,dets);
     for i = 1:numel(dsinfo(k).tag)

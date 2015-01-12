@@ -12,6 +12,10 @@ line(line<0.05*size(bw,1)) = 0;
 im2 = ones(size(bw));
 im2(:,line==0) = 0;
 
+%% FOR DEBUG
+% if mean(chars(:,2)) < 50
+%     imshow(bw);
+% end
 
 % find bbs of connect componets
 CC = bwconncomp(im2);
