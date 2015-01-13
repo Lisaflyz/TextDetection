@@ -19,7 +19,7 @@ mgn = 2; % margin for enlarge bb
 tmp = double([max(1,bbs(:,1)-mgn) max(1,bbs(:,2)-mgn) ...
     min(W,bbs(:,1)+bbs(:,3)-1+mgn) min(H,bbs(:,2)+bbs(:,4)-1+mgn)]);
 bbs = [tmp(:,1:2) tmp(:,3)-tmp(:,1)+1 tmp(:,4)-tmp(:,2)+1];
-bbs_old = tmp;
+% bbs_old = tmp;
 
 %% Filter out characters by HOG+SVM classifier
 rect_chars = double.empty(0,8); idx = [];
@@ -28,7 +28,7 @@ for i = 1:size(bbs,1)
     [label,prob] = hogClf(patch,model);
     if(label == 1) % 1 is alpha and number, 2 is non-text
         idx = [idx; i];
-        chr = [round(bbs_old(i,1:4)) prob(label) label sw(i) color(i,1)];
+        chr = [round(bbs(i,1:4)) prob(label) label sw(i) color(i,1)];
         rect_chars = [rect_chars; chr];
     end
 end
@@ -39,6 +39,7 @@ CC = filterCC(CC,idx);
 function sw = CCStrokeWidth(CC)
 %CCSTROKEWIDTH  Compute stroke width by CC list
 %  sw : list of stroke width
+sw = [];
 binImage = regionprops(CC, 'Image');
 for i=1:numel(binImage)
     bin = binImage(i).Image;

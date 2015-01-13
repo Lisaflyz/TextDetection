@@ -27,7 +27,7 @@ idx = [idx0;idx1];
 isgood = checkoverlap(lines);
 % separate line into word
 words = sepLine(lines,chars,isgood,idx,gray,prms);
-chars(:,3:4) = chars(:,3:4) - chars(:,1:2) + 1;
+% chars(:,3:4) = chars(:,3:4) - chars(:,1:2) + 1;
 
 det = struct('lines',lines,'words',words,'chars',chars,'CC',CC,'idx',idx);
 
@@ -59,10 +59,10 @@ for i = 1:size(lines,1)
     rect = lines(i,1:4);
 
     if prms.colorbin
-        patch = im(rect(2):rect(2)+rect(4)-1,rect(1):rect(1)+rect(3)-1,:);
+        patch = imcrop(im,rect(1:4));
         bw = otsubin_color(patch);
     else
-        patch = gray(rect(2):rect(2)+rect(4)-1,rect(1):rect(1)+rect(3)-1);
+        patch = imcrop(gray,rect(1:4));
         bw = otsubin(patch);
     end
     word = wordsep(rect,chars(idx == i,:),bw); % pass linerect, charrect in line

@@ -214,7 +214,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         int label    = (int)    rects[i+5*cols];
         double sw    = (double) rects[i+6*cols];
         double color = (double) rects[i+7*cols];
-        Rect rect = {x1, y1, x2-x1, y2-y1, sw, color};
+        Rect rect = {x1, y1, x2, y2, sw, color};
         gtrects.push_back(rect);
         scores.push_back(prob);
         
