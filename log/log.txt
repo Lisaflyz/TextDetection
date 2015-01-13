@@ -284,3 +284,7 @@ Recall : 62.45% Precision:5.93% Hmean:10.83%
 [2015-01-13 23:40:11] Experiment started : 150113_2340
 [2015-01-13 23:40:21] Experiment started : 150113_2340
 [2015-01-13 23:40:51] Experiment started : 150113_2340
+[2015-01-13 23:49:32] Experiment started : 150113_2349
+[2015-01-14 00:21:10] 150113_2349 R:65.19% P:26.85% H:38.04% sw:2.00 h:2.90
+[2015-01-14 00:23:54] Experiment started : 150114_0023
+[2015-01-14 00:26:39] Experiment started : 150114_0026
