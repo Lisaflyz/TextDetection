@@ -27,9 +27,7 @@ idx = [idx0;idx1];
 isgood = checkoverlap(lines);
 % separate line into word
 words = sepLine(lines,chars,isgood,idx,gray,prms);
-if numel(chars)>0
-    chars(:,3:4) = chars(:,3:4) - chars(:,1:2) + 1;
-end
+chars(:,3:4) = chars(:,3:4) - chars(:,1:2) + 1;
 
 det = struct('lines',lines,'words',words,'chars',chars,'CC',CC,'idx',idx);
 
@@ -41,10 +39,10 @@ function [lines chars CC idx] = detLines(gray,isdark,model,prms)
 %  isdark : character color Bright on Dark (0) or Dark on Bright (1)
 %  model  : model of character classifier
 
-[chars,~,~,CC] = detChars_mser(gray,isdark,model);
+[chars CC] = detChars_mser(gray,isdark,model);
 lines = []; idx = [];
 if ~isempty(chars)
-    [idx,lines] = textline(chars(:,1:8), prms.sw_ratio, prms.distance_ratio);
+    [idx lines] = textline(chars(:,1:8), prms.sw_ratio, prms.distance_ratio);
 end
 
 

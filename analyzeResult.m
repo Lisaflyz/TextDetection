@@ -6,12 +6,11 @@ if N ~= numel(expResult.details); fprintf('ERROR\n'); end
 
 % result
 nums   = zeros(N,2);
-result = zeros(N,6);
+result = expResult.result;
 for i = 1:N
     d = expResult.details(i);
     nums(i,1) = size(dsinfo(i).bbs,1);
     nums(i,2) = size(d.words,1);
-    result(i,1:6) = d.result(1:6);
 end
 
 t03r = sum(result(:,1) .* nums(:,1)) / sum(nums(:,1));
