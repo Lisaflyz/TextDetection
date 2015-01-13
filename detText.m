@@ -5,6 +5,7 @@ function [rect_lines,rect_words,rect_chars,CC, idx_all] = detText(im,model,prms)
 %   note that: lines and words are in the format of [x, y, width, height],
 %              characters are [x,y,x+width,y+height];
 %   
+addpath ('./swt/');
 gray = double(rgb2gray(im));
 [H W] = size(gray);
 if ~prms.useswt
@@ -22,7 +23,7 @@ end
 % group characters into textlines
 rect_lines0 = []; idx0 = [];
 if ~isempty(rect_chars0)
-    [idx0,rect_lines0] = textline(rect_chars0(:,1:7));
+    [idx0,rect_lines0] = textline(rect_chars0(:,1:8), prms.sw_ratio);
 end
 
 % find characters in opposite pattern
@@ -36,7 +37,7 @@ end
 % group characters into textlines
 rect_lines1 = []; idx1 = [];
 if ~isempty(rect_chars1)
-    [idx1,rect_lines1] = textline(rect_chars1(:,1:7));
+    [idx1,rect_lines1] = textline(rect_chars1(:,1:8), prms.sw_ratio);
 end
 
 rect_chars = [rect_chars0;rect_chars1];
@@ -55,13 +56,12 @@ CC.PixelIdxList = [CC0.PixelIdxList, CC1.PixelIdxList];
 
 
 %check overlap of two patterns
-% isgood = checkoverlap(rect_lines);
-% rect_lines = rect_lines(isgood==1,:);
+isgood = checkoverlap(rect_lines);
 
 %separate textlines into words
 rect_words = [];
 for i = 1:size(rect_lines,1)
-    % if isgood(i) ~= 1; continue; end;
+    if isgood(i)~=1 && prms.overlap; continue; end;
     rect = rect_lines(i,1:4);
 
     if prms.colorbin
@@ -74,6 +74,9 @@ for i = 1:size(rect_lines,1)
     word = wordsep(rect,rect_chars(idx_all == i,:),bw); % pass linerect, charrect in line
     rect_words = [rect_words;word];
 end
-rect_chars(:,3:4) = rect_chars(:,3:4) - rect_chars(:,1:2) + 1;
+
+if numel(rect_chars)>0
+    rect_chars(:,3:4) = rect_chars(:,3:4) - rect_chars(:,1:2) + 1;
+end
 
 end

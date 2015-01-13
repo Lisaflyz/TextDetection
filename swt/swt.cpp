@@ -588,7 +588,7 @@ double calcVariance(vector<double> scores) {
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 
-    if (nlhs>1)  mexErrMsgTxt("Too many output arguments");
+    if (nlhs>2)  mexErrMsgTxt("Too many output arguments");
     if (nrhs==0) mexErrMsgTxt("No Image");
     if (nrhs==1) mexErrMsgTxt("Charcolor is not spcified");
     if (mxGetClassID(prhs[0])!=6) mexErrMsgTxt("Matrix is not of type double");
@@ -619,29 +619,29 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 
     execswt(img,SWTImage);
 
-    // int nregion = 0;
-    // std::vector<double> wlist = std::vector<double>();
-    // for (int i = 0; i < SWTImage.rows; i++){
-    //     for (int j = 0; j < SWTImage.cols; j++){
-    //         double w = SWTImage.at<float>(i,j);
-    //         if (w != -1){
-    //             wlist.push_back(w);
-    //             nregion++;
-    //         }
-    //     }
-    // }
+    int nregion = 0;
+    std::vector<double> wlist = std::vector<double>();
+    for (int i = 0; i < SWTImage.rows; i++){
+        for (int j = 0; j < SWTImage.cols; j++){
+            double w = SWTImage.at<float>(i,j);
+            if (w != -1){
+                wlist.push_back(w);
+                nregion++;
+            }
+        }
+    }
     // double avg = 0.0;
-    // double median = 0.0;
     // double var = 0.0;
-    // if (nregion != 0){
-    //     avg = std::accumulate(wlist.begin(),wlist.end(),0) / (double)nregion;
-    //     median = calcMedian(wlist);
-    //     var = calcVariance(wlist);
-    // }
+    double median = 0.0;
+    if (nregion != 0){
+        // avg = std::accumulate(wlist.begin(),wlist.end(),0) / (double)nregion;
+        // var = calcVariance(wlist);
+        median = calcMedian(wlist);
+    }
 
     // std::cout << "SWTImage= " << std::endl << " " << SWTImage << std::endl << std::endl;
 
-    // plhs[0] = mxCreateDoubleScalar(avg);
+    plhs[1] = mxCreateDoubleScalar(median);
     // plhs[1] = mxCreateDoubleScalar(var);
     plhs[0] = mxCreateDoubleMatrix(SWTImage.rows,SWTImage.cols,mxREAL);
     double* out_v;

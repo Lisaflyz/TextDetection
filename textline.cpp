@@ -6,11 +6,19 @@
 
 using namespace std;
 
+double distance_ratio = 2.9;
+double height_ratio = 1.7;
+double intersect_ratio = 1.3;
+double sw_ratio = 2.0;
+double color_diff = 0.2;
+
 struct Rect {
     int x;
     int y;
     int width;
     int height;
+    double sw;
+    double color;
     
     bool operator==(const Rect& rhs) {
         return this->x == rhs.x && this->y == rhs.y && this->width == rhs.width && this->height == rhs.height;
@@ -28,18 +36,24 @@ struct Rect {
 };
 
 bool is_pair(Rect r1, Rect r2){
-    double distance_ratio = 2.9;
-    double height_ratio = 1.7;
-    double intersect_ratio = 1.3;
     int dx = r1.x - r2.x + (r1.width - r2.width) / 2;
     int dy = r1.y - r2.y + (r1.height - r2.height) / 2;
+    // character spaceing validation
     if (abs(dx) > distance_ratio * max(r1.width, r2.width) || abs(dx) < 0.25 * min(r1.width, r2.width)) return false;
     
+    // character height validation
     double ratio = (double) r1.height / r2.height;
     if (ratio > height_ratio || ratio < 1.0 / height_ratio) return false;
     
     int oy = min(r1.y + r1.height, r2.y + r2.height) -  max(r1.y, r2.y);
     if (oy * intersect_ratio < min(r1.height, r2.height)) return false;
+
+    // stroke width validation
+    ratio = r1.sw / r2.sw;
+    if (ratio > sw_ratio || ratio < 1.0/sw_ratio) return false;
+    // color validation
+    ratio = r1.color / r2.color;
+    if (abs((int)(r1.color-r2.color))/255.0 > color_diff) return false;
     
     return true;
     
@@ -179,18 +193,25 @@ void add_rect_to_line(vector<Rect> &rects, Rect rect){
 
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
+    if (nlhs>2)  mexErrMsgTxt("Too many output arguments");
+    if (nrhs==0) mexErrMsgTxt("No Image");
     double *rects = mxGetPr(prhs[0]);
     int cols  = mxGetM(prhs[0]);
     int rows  = mxGetN(prhs[0]);
+    if (nlhs>=2) sw_ratio = mxGetScalar(prhs[1]);
+
     vector<Rect> gtrects;
     vector<double> scores;
     for(int i = 0; i < cols; i++){
-        int x1 = (int) rects[i+0*cols];
-        int y1 = (int) rects[i+1*cols];
-        int x2 = (int) rects[i+2*cols];
-        int y2 = (int) rects[i+3*cols];
-        double prob = (double) rects[i+4*cols];
-        Rect rect = {x1, y1, x2-x1, y2-y1};
+        int x1       = (int)    rects[i+0*cols];
+        int y1       = (int)    rects[i+1*cols];
+        int x2       = (int)    rects[i+2*cols];
+        int y2       = (int)    rects[i+3*cols];
+        double prob  = (double) rects[i+4*cols];
+        int label    = (int)    rects[i+5*cols];
+        double sw    = (double) rects[i+6*cols];
+        double color = (double) rects[i+7*cols];
+        Rect rect = {x1, y1, x2-x1, y2-y1, sw, color};
         gtrects.push_back(rect);
         scores.push_back(prob);
         
