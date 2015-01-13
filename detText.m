@@ -23,7 +23,7 @@ end
 % group characters into textlines
 rect_lines0 = []; idx0 = [];
 if ~isempty(rect_chars0)
-    [idx0,rect_lines0] = textline(rect_chars0(:,1:8), prms.sw_ratio);
+    [idx0,rect_lines0] = textline(rect_chars0(:,1:8), prms.sw_ratio, prms.distance_ratio);
 end
 
 % find characters in opposite pattern
@@ -37,7 +37,7 @@ end
 % group characters into textlines
 rect_lines1 = []; idx1 = [];
 if ~isempty(rect_chars1)
-    [idx1,rect_lines1] = textline(rect_chars1(:,1:8), prms.sw_ratio);
+    [idx1,rect_lines1] = textline(rect_chars1(:,1:8), prms.sw_ratio, prms.distance_ratio);
 end
 
 rect_chars = [rect_chars0;rect_chars1];

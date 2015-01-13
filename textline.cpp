@@ -3,6 +3,7 @@
 #include <mex.h>
 #include <vector>
 #include <utility>      // std::pair, std::make_pair
+#include <iostream>
 
 using namespace std;
 
@@ -193,12 +194,14 @@ void add_rect_to_line(vector<Rect> &rects, Rect rect){
 
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
-    if (nlhs>2)  mexErrMsgTxt("Too many output arguments");
+    if (nlhs>3)  mexErrMsgTxt("Too many output arguments");
     if (nrhs==0) mexErrMsgTxt("No Image");
     double *rects = mxGetPr(prhs[0]);
     int cols  = mxGetM(prhs[0]);
     int rows  = mxGetN(prhs[0]);
-    if (nlhs>=2) sw_ratio = mxGetScalar(prhs[1]);
+    if (nrhs>=2) sw_ratio = mxGetScalar(prhs[1]);
+    if (nrhs>=3) distance_ratio = mxGetScalar(prhs[2]);
+    // std::cout << nlhs << "sw:" << sw_ratio << "dis:" << distance_ratio << std::endl;
 
     vector<Rect> gtrects;
     vector<double> scores;

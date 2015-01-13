@@ -9,15 +9,18 @@ prms.usemser = 1;
 prms.colorbin = 0;
 prms.overlap = 1;
 
-
-prms.date = datestr(now,'yymmdd_HHMM');
-writeLog(sprintf('Experiment started : %s',prms.date));
 model = trainDetClf(1);
+for i=1:0.2:4
+    prms.distance_ratio = i;
 
-expResult = execTextDet('icdar_2013_test', model, prms);
-save(sprintf('data/result/%s.mat',prms.date),'expResult');
+    prms.date = datestr(now,'yymmdd_HHMM');
+    writeLog(sprintf('Experiment started : %s %f',prms.date,prms.sw_ratio));
 
-analyzeResult(expResult);
+    expResult = execTextDet('icdar_2013_test', model, prms);
+    save(sprintf('../savedata/TextDetection/data/result/%s.mat',prms.date),'expResult');
+
+    analyzeResult(expResult);
+end
 genResultImage(expResult);
 genMongoQuery(expResult);
 writeLog(sprintf('Experiment ended : %s',prms.date));
