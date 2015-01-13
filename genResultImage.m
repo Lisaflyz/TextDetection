@@ -47,11 +47,6 @@ for i = 1:numel(dsinfo)
 end
 end
 
-    % if expResult.prms.saveimg==1
-    %     I = imread(dsinfo(i).filename);
-    %     rectimg = myrectangle(I,d.dets);
-    %     imwrite(uint8(rectimg),sprintf('images/save/det_%d.jpg',i));
-    % end
 
 
 function color = getColor

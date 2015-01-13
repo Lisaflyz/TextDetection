@@ -27,7 +27,8 @@ for k = n:n
     scale = 1;
     if size(I,1)>2000, scale = 0.3; I = imresize(I,scale); else scale = 1; end
 
-    [lines words chars CC idx] = detText(I, model, prms);
+    det = detText2(I, model, prms);
+    lines=det.lines; words=det.words;chars=det.chars;
     lines = lines/scale; words = words/scale; chars = chars/scale;
 
     dets = words;
@@ -39,9 +40,8 @@ for k = n:n
     fprintf('Result : \033[32m%.4f\033[39m\n', result(4));
     fprintf('Char :%4d, Word :%3d, Line :%3d\n',size(chars,1),size(words,1),size(lines,1));
 
-    detail = struct('lines',lines,'words',words,'chars',chars, ...
-        'dets',dets,'result',result,'CC',CC,'idx',idx);
-    % expResult.details  = [expResult.details; detail];
+    % detail = struct('lines',lines,'words',words,'chars',chars, ...
+    %     'dets',dets,'result',result,'CC',CC,'idx',idx);
 
 end
 

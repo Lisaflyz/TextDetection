@@ -10,7 +10,7 @@ result = zeros(N,6);
 for i = 1:N
     d = expResult.details(i);
     nums(i,1) = size(dsinfo(i).bbs,1);
-    nums(i,2) = size(d.dets,1);
+    nums(i,2) = size(d.words,1);
     result(i,1:6) = d.result(1:6);
 end
 
@@ -38,8 +38,8 @@ for i = 1:N
     W = size(I,2);
 
     res = zeros(1,4);
-    if numel(d.dets)>0
-        res = d.dets;
+    if numel(d.words)>0
+        res = d.words;
         res(:,3:4)=res(:,1:2)+res(:,3:4)-1;
     end
     for j=1:size(res,1)
