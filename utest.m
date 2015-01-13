@@ -1,45 +1,26 @@
-function test_det_2013
+function utest(n)
 %
 % This script detects text in ICDAR 2013 scene images.
 %
-clear all;
 prms = getParams;
 prms.useswt = 0;
 prms.usemser = 1;
 prms.colorbin = 0;
 prms.overlap = 1;
-
-
+prms.sw_ratio = 2;
 prms.date = datestr(now,'yymmdd_HHMM');
-writeLog(sprintf('Experiment started : %s',prms.date));
+
+
+
+
 model = trainDetClf(1);
-
-expResult = execTextDet('icdar_2013_test', model, prms);
-save(sprintf('data/result/%s.mat',prms.date),'expResult');
-
-analyzeResult(expResult);
-genResultImage(expResult);
-genMongoQuery(expResult);
-writeLog(sprintf('Experiment ended : %s',prms.date));
-% evaldet
-
-end
-
-
-function expResult = execTextDet(testset, model, prms)
-
 addpath DetEval;
 
-prms.testset = testset;
-expResult.prms = prms;
 
-dsinfo = loadDetDataset(testset,1);
+dsinfo = loadDetDataset('icdar_2013_test',1);
 N = numel(dsinfo);
-expResult.result = zeros(N,6);
-expResult.details = repmat(struct('lines',[],'words',[],'chars',[], ...
-    'dets',[],'result',[],'CC',[],'idx',[]),N,1);
 
-for k = 1:N
+for k = n:n
     fprintf('\n# image %d %s\n', k, prms.date);
     I = imread(dsinfo(k).filename);
     I = adjustImage(I,0.05);
@@ -61,11 +42,22 @@ for k = 1:N
     detail = struct('lines',lines,'words',words,'chars',chars, ...
         'dets',dets,'result',result,'CC',CC,'idx',idx);
     % expResult.details  = [expResult.details; detail];
-    expResult.details(k) = detail;
-    expResult.result(k,1:6) = result(1:6);
 
-    if k==50 || k==100, save(sprintf('data/result/%s.mat',prms.date),'expResult'); end
 end
+
+f = figure('Visible','on');imshow(uint8(I));
+hold on;
+for i = 1:size(chars,1)
+    rect = chars(i,1:4);
+    rectangle('Position',rect,'EdgeColor','g');
+end
+for i = 1:size(lines,1)
+    rect = lines(i,1:4);
+    rectangle('Position',rect,'EdgeColor','r','LineWidth',2);
+end
+for i = 1:size(words,1)
+   rect = words(i,1:4);
+   rectangle('Position',rect,'EdgeColor','b');
 end
 
 

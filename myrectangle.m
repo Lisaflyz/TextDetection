@@ -1,8 +1,7 @@
-function [ im ] = myrectangle( im , rects )
+function [ im ] = myrectangle( im , rects , color)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 [H W ch] = size(im);
-color = [0 255 0];
 rects = int16(rects);
 for i =1:size(rects,1)
     x = rects(i,1);

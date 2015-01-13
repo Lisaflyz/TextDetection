@@ -92,8 +92,6 @@ function [label,prob] = hogClf(patch,model)
             prob = mean(prob(idx,1));
         end
     else
-        if prob(1) > 0.3
-            label = 1;
-        end
+        label = 1;
     end
 end

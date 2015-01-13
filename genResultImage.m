@@ -1,17 +1,19 @@
 function getResultImage(expResult)
 
-
+dsinfo = loadDetDataset(expResult.prms.testset,1);
 
 mkdir(fullfile('images',expResult.prms.date));
 % output image
 dir1 = fullfile('images',expResult.prms.date,'1');
 dir2 = fullfile('images',expResult.prms.date,'2');
+dir3 = fullfile('images',expResult.prms.date,'rect');
 mkdir(dir1);
 mkdir(dir2);
-for i = 1:N
+mkdir(dir3);
+for i = 1:numel(dsinfo)
     CC = expResult.details(i).CC;
     idx = expResult.details(i).idx;
-    % image1
+    % BW image
     BW = zeros(CC.ImageSize);
     for j = 1:numel(CC.PixelIdxList)
         % ind2subで0に
@@ -21,7 +23,7 @@ for i = 1:N
         end
     end
     imwrite(BW,sprintf('%s/img_%d.jpg',dir1,i));
-    % color
+    % color CC
     color = getColor;
     I = ones([CC.ImageSize,3])*200;
     for j = 1:numel(CC.PixelIdxList)
@@ -36,6 +38,13 @@ for i = 1:N
         end
     end
     imwrite(uint8(I),sprintf('%s/img_%d.jpg',dir2,i));
+
+    I = imread(dsinfo(i).filename);
+    d = expResult.details(i);
+    I = myrectangle(I,d.chars,[255 0 0]);
+    I = myrectangle(I,d.words,[0 255 0]);
+    imwrite(uint8(I),sprintf('%s/img_%d.jpg',dir3,i));
+end
 end
 
     % if expResult.prms.saveimg==1

@@ -1,8 +1,13 @@
 function CC = msertest(n,isdark)
   
 
-fname = sprintf('../images/detection/icdar2013/test/img_%d.jpg',n);
-I = imread(fname);
+if numel(n)>1
+    I = n;
+    fname = n;
+else
+    fname = sprintf('../images/detection/icdar2013/test/img_%d.jpg',n);
+    I = imread(fname);
+end
 [H W ch] = size(I);
 % for i=1:H, for j=1:W
 %     I(i,j,:) = I(i,j,:) - min(I(i,j,:));
