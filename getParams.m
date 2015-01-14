@@ -11,3 +11,4 @@ prms.adjust = 1;
 prms.overlap = 1;
 prms.clfthr = 0;
 prms.maxthr = 0;
+prms.finalthr = 0;

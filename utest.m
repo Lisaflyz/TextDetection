@@ -1,4 +1,4 @@
-function det = utest(n)
+function det = utest(n,showimg)
 %
 % This script detects text in ICDAR 2013 scene images.
 %
@@ -32,16 +32,19 @@ for k = n:n
         fprintf('%2d : %5.1f%%  %s\n',i,recall(i)*100,dsinfo(k).tag{i});
     end
     result = DetEval(dets, dsinfo(k).bbs); % [r p h(2003) r p h(deteval)]
-    fprintf('Result : \033[32m%.4f\033[39m\n', result(4));
-    fprintf('Char :%4d, Word :%3d, Line :%3d\n',size(chars,1),size(words,1),size(lines,1));
+    fprintf('R : \033[32m%.2f%%\033[39m   P : \033[33m%.2f%%\033[39m\n',...
+        result(4)*100,result(5)*100);
+    fprintf('Char :%4d, Word :%3d(%d), Line :%3d\n',size(chars,1),size(words,1),numel(dsinfo(k).tag),size(lines,1));
 
     % detail = struct('lines',lines,'words',words,'chars',chars, ...
     %     'dets',dets,'result',result,'CC',CC,'idx',idx);
 
 end
 
-if 0
-    f = figure('Visible','on');imshow(uint8(I));
+if nargin==2
+    f = figure('Visible','on');
+    I = uint8(imread(dsinfo(k).filename));
+    imshow(uint8(I));
     hold on;
     for i = 1:size(chars,1)
         rect = chars(i,1:4);

@@ -28,8 +28,8 @@ for k = 1:N
     %% Output result
     fprintf('R : \033[32m%.2f%%\033[39m   P : \033[33m%.2f%%\033[39m\n',...
         result(4)*100,result(5)*100);
-    fprintf('Char :%4d, Word :%3d, Line :%3d\n', ...
-        size(det.chars,1),size(det.words,1),size(det.lines,1));
+    fprintf('Char :%4d, Word :%3d(%d), Line :%3d\n', ...
+        size(det.chars,1),size(det.words,1),numel(dsinfo(k).tag),size(det.lines,1));
     % recall = calcDetScore(dsinfo(k).bbs,det.words);
     % for i = 1:numel(dsinfo(k).tag)
     %     fprintf('%2d : %5.1f%%  %s\n',i,recall(i)*100,dsinfo(k).tag{i});

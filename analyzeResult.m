@@ -25,8 +25,8 @@ t13h = 2.0*t13p*t13r/(t13p+t13r);
 % fprintf('Evaluation 13: precision:%f,recall:%f,hmean:%f\n',t13p*100,t13r*100,t13h*100);
 fprintf('Recall : \33[32m%2.2f%%\33[39m Precision:%2.2f%% Hmean:%2.2f%%\n\n',t13r*100,t13p*100,t13h*100);
 p = expResult.prms;
-writeLog(sprintf('%s R:%2.2f%% P:%2.2f%% H:%2.2f%% sw:%.2f d:%.2f c:%.2f thr:%f-%f' ...
-        ,p.date,t13r*100,t13p*100,t13h*100,p.sw_ratio,p.distance_ratio,p.color_diff,p.clfthr,p.maxthr));
+writeLog(sprintf('%s R:%2.2f%% P:%2.2f%% H:%2.2f%% sw:%.2f d:%.2f c:%.2f thr:%.2f-%.2f-%.2f' ...
+        ,p.date,t13r*100,t13p*100,t13h*100,p.sw_ratio,p.distance_ratio,p.color_diff,p.clfthr,p.maxthr,p.finalthr));
 
 
 % output result for icdar2013
