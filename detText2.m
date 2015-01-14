@@ -37,7 +37,7 @@ function isgood = filterLine(lines,chars,idx,prms)
 
 isgood = zeros(size(lines,1),1);
 for i=1:size(lines,1)
-    tmpidx = idx(idx==i);
+    tmpidx = find(idx==i);
     if max(chars(tmpidx,5)) > prms.maxthr
         isgood(i) = 1;
     end

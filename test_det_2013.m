@@ -10,7 +10,7 @@ prms.date = datestr(now,'yymmdd_HHMM');
 writeLog(sprintf('Experiment started : %s',prms.date));
 model = trainDetClf(1);
 
-prms.maxthr = 0.9;
+prms.maxthr = 0.6;
 expResult = execTextDet('icdar_2013_test', model, prms);
 save(sprintf('data/result/%s.mat',prms.date),'expResult');
 

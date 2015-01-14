@@ -1,16 +1,11 @@
-function utest(n)
+function det = utest(n)
 %
 % This script detects text in ICDAR 2013 scene images.
 %
 prms = getParams;
-prms.useswt = 0;
-prms.usemser = 1;
-prms.colorbin = 0;
-prms.overlap = 1;
-prms.sw_ratio = 2;
 prms.date = datestr(now,'yymmdd_HHMM');
 
-
+prms.maxthr = 0.6;
 
 
 model = trainDetClf(1);
@@ -45,21 +40,22 @@ for k = n:n
 
 end
 
-f = figure('Visible','on');imshow(uint8(I));
-hold on;
-for i = 1:size(chars,1)
-    rect = chars(i,1:4);
-    rectangle('Position',rect,'EdgeColor','g');
+if 0
+    f = figure('Visible','on');imshow(uint8(I));
+    hold on;
+    for i = 1:size(chars,1)
+        rect = chars(i,1:4);
+        rectangle('Position',rect,'EdgeColor','g');
+    end
+    for i = 1:size(lines,1)
+        rect = lines(i,1:4);
+        rectangle('Position',rect,'EdgeColor','r','LineWidth',2);
+    end
+    for i = 1:size(words,1)
+       rect = words(i,1:4);
+       rectangle('Position',rect,'EdgeColor','b');
+    end
+    words
 end
-for i = 1:size(lines,1)
-    rect = lines(i,1:4);
-    rectangle('Position',rect,'EdgeColor','r','LineWidth',2);
-end
-for i = 1:size(words,1)
-   rect = words(i,1:4);
-   rectangle('Position',rect,'EdgeColor','b');
-end
-words
-
 
 
