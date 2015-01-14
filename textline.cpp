@@ -53,8 +53,8 @@ bool is_pair(Rect r1, Rect r2){
     ratio = r1.sw / r2.sw;
     if (ratio > sw_ratio || ratio < 1.0/sw_ratio) return false;
     // color validation
-    ratio = r1.color / r2.color;
-    if (abs((int)(r1.color-r2.color))/255.0 > color_diff) return false;
+    ratio = abs((int)(r1.color-r2.color))/255.0;
+    if (ratio > color_diff) return false;
     
     return true;
     
@@ -201,7 +201,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     int rows  = mxGetN(prhs[0]);
     if (nrhs>=2) sw_ratio = mxGetScalar(prhs[1]);
     if (nrhs>=3) distance_ratio = mxGetScalar(prhs[2]);
-    // std::cout << nlhs << "sw:" << sw_ratio << "dis:" << distance_ratio << std::endl;
+    if (nrhs>=4) color_diff = mxGetScalar(prhs[3]);
+    std::cout << nlhs << "sw:" << sw_ratio << "dis:" << distance_ratio << "color:" << color_diff << std::endl;
 
     vector<Rect> gtrects;
     vector<double> scores;
@@ -217,7 +218,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         Rect rect = {x1, y1, x2, y2, sw, color};
         gtrects.push_back(rect);
         scores.push_back(prob);
-        
     }
     vector<pair<Rect, Rect> > pairs;
     make_pairs(gtrects, pairs);

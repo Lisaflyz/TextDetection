@@ -3,6 +3,7 @@
 #include <mex.h>
 #include <vector>
 #include <utility>      // std::pair, std::make_pair
+#include <iostream>
 
 using namespace std;
 struct Rect {
@@ -64,7 +65,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         for(int j = i+1; j < rects.size();j++){
             Rect r = rects[i] & rects[j];
 
-            double overlap = (double) (r.width * r.height) / std::min(rects[i].width*rects[i].height,rects[j].width*rects[j].height);
+            double overlap = (double) (r.width * r.height) / (double)(std::min(rects[i].width*rects[i].height,rects[j].width*rects[j].height));
             if(overlap > 0.5){
                 int k = scores[i] > scores[j] ? j : i;
                 isgood[k] = 0;

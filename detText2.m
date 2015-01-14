@@ -24,12 +24,24 @@ end
 idx = [idx0;idx1];
 
 % check overlap of two patterns
-isgood = checkoverlap(lines);
+isgood = filterLine(lines,chars,idx,prms);
+isgood = isgood & checkoverlap(lines);
 % separate line into word
 words = sepLine(lines,chars,isgood,idx,gray,prms);
 % chars(:,3:4) = chars(:,3:4) - chars(:,1:2) + 1;
 
 det = struct('lines',lines,'words',words,'chars',chars,'CC',CC,'idx',idx);
+
+function isgood = filterLine(lines,chars,idx,prms)
+%FILTERLINE Filter out line that don't have char with high score
+
+isgood = zeros(size(lines,1),1);
+for i=1:size(lines,1)
+    tmpidx = idx(idx==i);
+    if max(chars(tmpidx,5)) > prms.maxthr
+        isgood(i) = 1;
+    end
+end
 
 
 
@@ -39,10 +51,10 @@ function [lines chars CC idx] = detLines(gray,isdark,model,prms)
 %  isdark : character color Bright on Dark (0) or Dark on Bright (1)
 %  model  : model of character classifier
 
-[chars CC] = detChars_mser(gray,isdark,model);
+[chars CC] = detChars_mser(gray,isdark,model,prms);
 lines = []; idx = [];
 if ~isempty(chars)
-    [idx lines] = textline(chars(:,1:8), prms.sw_ratio, prms.distance_ratio);
+    [idx lines] = textline(chars(:,1:8), prms.sw_ratio, prms.distance_ratio,prms.color_diff);
 end
 
 

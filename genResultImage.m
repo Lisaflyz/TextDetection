@@ -11,7 +11,11 @@ mkdir(dir1);
 mkdir(dir2);
 mkdir(dir3);
 for i = 1:numel(dsinfo)
+    I_base = imread(dsinfo(i).filename);
+    imgsize = size(I_base);
+
     CC = expResult.details(i).CC;
+    CC.ImageSize = imgsize(1:2);
     idx = expResult.details(i).idx;
     % BW image
     BW = zeros(CC.ImageSize);
@@ -39,9 +43,8 @@ for i = 1:numel(dsinfo)
     end
     imwrite(uint8(I),sprintf('%s/img_%d.jpg',dir2,i));
 
-    I = imread(dsinfo(i).filename);
     d = expResult.details(i);
-    I = myrectangle(I,d.chars,[255 0 0]);
+    I = myrectangle(I_base,d.chars,[255 0 0]);
     I = myrectangle(I,d.words,[0 255 0]);
     imwrite(uint8(I),sprintf('%s/img_%d.jpg',dir3,i));
 end

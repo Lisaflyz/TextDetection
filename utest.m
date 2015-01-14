@@ -59,6 +59,7 @@ for i = 1:size(words,1)
    rect = words(i,1:4);
    rectangle('Position',rect,'EdgeColor','b');
 end
+words
 
 
 

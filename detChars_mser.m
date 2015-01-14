@@ -1,4 +1,4 @@
-function [rect_chars CC] = detChars_mser(I, isdark, model)
+function [rect_chars CC] = detChars_mser(I, isdark, model, prms)
 %function to extract text characters from image
 
 %% Find CC and BB
@@ -25,7 +25,7 @@ bbs = [tmp(:,1:2) tmp(:,3)-tmp(:,1)+1 tmp(:,4)-tmp(:,2)+1];
 rect_chars = double.empty(0,8); idx = [];
 for i = 1:size(bbs,1)
     patch = imcrop(I, round(bbs(i,:)));
-    [label,prob] = hogClf(patch,model);
+    [label,prob] = hogClf(patch,model,prms);
     if(label == 1) % 1 is alpha and number, 2 is non-text
         idx = [idx; i];
         chr = [round(bbs(i,1:4)) prob(label) label sw(i) color(i,1)];
@@ -49,7 +49,7 @@ end
 
 
 
-function [label,prob] = hogClf(patch,model)
+function [label,prob] = hogClf(patch,model,prms)
 %HOGCLF  HOG+SVM character classifier
 %  patch : character image 
 %  model : model of character classifier (SVM)
@@ -81,5 +81,8 @@ if size(label,1) > 1
         prob = mean(prob(idx,1));
     end
 else
-    label = 1;
+    if prob > prms.clfthr
+        label = 1;
+    end
 end
+if isnan(prob), prob = 0; end;

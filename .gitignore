@@ -16,3 +16,4 @@ data/tmp/*.mat
 swt/image/test/
 res/*
 expdata/query/*.txt
+bak/*
