@@ -25,7 +25,7 @@ idx = [idx0;idx1];
 
 % check overlap of two patterns
 isgood = filterLine(lines,chars,idx,prms);
-isgood = isgood & checkoverlap(lines);
+% isgood = isgood & checkoverlap(lines);
 % separate line into word
 words = sepLine(lines,chars,isgood,idx,gray,model,prms);
 % chars(:,3:4) = chars(:,3:4) - chars(:,1:2) + 1;
@@ -36,12 +36,33 @@ function isgood = filterLine(lines,chars,idx,prms)
 %FILTERLINE Filter out line that don't have char with high score
 
 isgood = zeros(size(lines,1),1);
+
+% for i=1:size(lines,1)
+%     tmpidx = find(idx==i);
+%     if max(chars(tmpidx,5)) > prms.maxthr
+%         isgood(i) = 1;
+%     end
+% end
 for i=1:size(lines,1)
     tmpidx = find(idx==i);
-    if max(chars(tmpidx,5)) > prms.maxthr
+    sortc = sort(chars(tmpidx,5),'descend');
+    if numel(sortc)>=1 && sortc(1) > prms.maxthr
+        isgood(i) = 1;
+    elseif numel(sortc)>=2 && mean(sortc(1:2)) > prms.maxthr2
+        isgood(i) = 1;
+    elseif numel(sortc)>=3 && mean(sortc(1:3)) > prms.maxthr3
         isgood(i) = 1;
     end
 end
+isgood = isgood & checkoverlap(lines);
+
+% isgood2 = checkoverlap(lines(find(isgood==1),:));
+% count = 1;
+% for i=1:numel(isgood)
+%     if isgood(i) == 0, continue; end
+%     isgood(i)=isgood2(count);
+%     count = count + 1;
+% end
 
 
 

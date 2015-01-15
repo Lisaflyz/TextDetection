@@ -202,7 +202,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (nrhs>=2) sw_ratio = mxGetScalar(prhs[1]);
     if (nrhs>=3) distance_ratio = mxGetScalar(prhs[2]);
     if (nrhs>=4) color_diff = mxGetScalar(prhs[3]);
-    std::cout << nlhs << "sw:" << sw_ratio << "dis:" << distance_ratio << "color:" << color_diff << std::endl;
+    // std::cout << nlhs << "sw:" << sw_ratio << "dis:" << distance_ratio << "color:" << color_diff << std::endl;
 
     vector<Rect> gtrects;
     vector<double> scores;

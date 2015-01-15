@@ -36,7 +36,7 @@ for k = 1:N
     % end
 
 
-    if k==50 || k==100, save(sprintf('data/result/%s.mat',prms.date),'expResult'); end
+    if (k==50||k==100)&&prms.loop, save(sprintf('data/result/%s.mat',prms.date),'expResult');end
 end
 
 
