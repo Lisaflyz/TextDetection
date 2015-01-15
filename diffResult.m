@@ -1,9 +1,10 @@
 function diffResult(id1, id2, n)
 
-load(sprintf('data/result/%s.mat',id1));
+path = '../savedata/TextDetection/data/result';
+load(sprintf('%s/%s.mat',path,id1));
 r1 = expResult.result(:,4);
 p1 = expResult.result(:,5);
-load(sprintf('data/result/%s.mat',id2));
+load(sprintf('%s/%s.mat',path,id2));
 r2 = expResult.result(:,4);
 p2 = expResult.result(:,5);
 dsinfo = loadDetDataset(expResult.prms.testset,1);
